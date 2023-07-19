@@ -28,9 +28,10 @@ target = "llvm"
 
 input_name = "input.1"
 shape_dict = {input_name: x.shape}
-mod, params = relay.frontend.from_onnx(onnx_model, shape_dict)
+mod, params = relay.frontend.from_onnx(onnx_model, shape_dict)  # RelayIR
 
 print(mod)
+print(params)
 
 with tvm.transform.PassContext(opt_level=6):
     intrp = relay.build_module.create_executor("graph", mod, tvm.cpu(0), target)

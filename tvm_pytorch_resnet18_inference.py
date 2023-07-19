@@ -3,6 +3,7 @@ import tvm
 from tvm import relay
 import numpy as np
 from tvm.contrib.download import download_testdata
+
 import torch
 import torchvision
 from scipy.special import softmax
@@ -15,6 +16,9 @@ model = model.eval()
 input_shape = [1, 3, 224, 224]
 input_data = torch.randn(input_shape)
 scripted_model = torch.jit.trace(model, input_data).eval()
+print(scripted_model)
+torch.jit.save(scripted_model, "resnet18.pt")
+
 
 from PIL import Image
 
@@ -37,6 +41,7 @@ my_preprocess = transforms.Compose(
 )
 img = my_preprocess(img)
 img = np.expand_dims(img, 0)
+print(img.shape, img.dtype)
 
 ######################################################################
 # Import the graph to Relay
